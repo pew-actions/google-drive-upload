@@ -22,6 +22,9 @@ inputs:
     description: 'Optional sub-folder to upload the file to (Will be created if non-existent)'
     required: false
     default: null
+outputs:
+  file-id:
+    description: 'Id of the uploaded file'
 runs:
   using: 'node16'
   main: 'dist/index.js'

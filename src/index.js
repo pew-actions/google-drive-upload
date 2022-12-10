@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 
+import * as core from '@actions/core'
+
 const actions = require('@actions/core');
 const { google } = require('googleapis');
 
@@ -66,13 +68,16 @@ async function main() {
         body: fs.createReadStream(target),
     };
 
-    return drive.files.create({
+    const result = await drive.files.create({
         resource: fileMetadata,
         media: fileData,
         uploadType: 'multipart',
         fields: 'id',
         supportsAllDrives: true,
     });
+
+    core.setOutput('file-id', result.data.id)
+    return result;
 }
 
 main().catch((error) => actions.setFailed(error));
