@@ -11,7 +11,7 @@ const owner = actions.getInput('owner', { required: false });
 const childFolder = actions.getInput('child_folder', { required: false });
 let filename = actions.getInput('name', { required: false });
 
-const credentialsJSON = JSON.parse(Buffer.from(credentials, 'base64').toString());
+const credentialsJSON = JSON.parse(credentials)
 const scopes = ['https://www.googleapis.com/auth/drive.file'];
 const auth = new google.auth
     .JWT(credentialsJSON.client_email, null, credentialsJSON.private_key, scopes, owner);
