@@ -11,6 +11,7 @@ const parentFolderId = actions.getInput('parent_folder_id', { required: true });
 const target = actions.getInput('target', { required: true });
 const owner = actions.getInput('owner', { required: false });
 const childFolder = actions.getInput('child_folder', { required: false });
+const fileId = actions.getInput('file_id', { required: false });
 let filename = actions.getInput('name', { required: false });
 
 const credentialsJSON = JSON.parse(credentials)
@@ -74,6 +75,7 @@ async function main() {
         uploadType: 'multipart',
         fields: 'id',
         supportsAllDrives: true,
+        id: fileId,
     });
 
     core.setOutput('file-id', result.data.id)
