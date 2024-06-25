@@ -26,6 +26,10 @@ inputs:
     description: 'Optional file-id to use for the upload'
     required: false
     default: null
+  retries:
+    description: 'Number of attempts to retry the upload'
+    required: false
+    default: 3
 outputs:
   file-id:
     description: 'Id of the uploaded file'
