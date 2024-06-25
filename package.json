@@ -2,17 +2,18 @@
   "name": "google-drive-upload-action",
   "version": "1.1.0",
   "description": "Github action to upload a file to Google Drive using a service account",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "Software devel <software_devel@willo.com>",
   "repository": "git@github.com:willo32/google-drive-upload-action.git",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "ncc build src/index.js"
+    "build": "tsc && ncc build"
   },
   "devDependencies": {
     "@types/node": "^20.5.2",
-    "@vercel/ncc": "^0.36.0"
+    "@vercel/ncc": "^0.36.0",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
