@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 
-const maxRetries: number = parseInt(core.getInput('retries', { required: false }));
+const backoffRate: number = 1.5
+const maxRetries: number = Math.max(1, parseInt(core.getInput('retries', { required: false })))
 
 export class Retries {
 	private maxAttemps: number
@@ -10,7 +11,11 @@ export class Retries {
 	}
 
 	async execute<T>(action: () => Promise<T>): Promise<T> {
-		// run N-1 attempts
+
+		// initial sleep rand [5,10) seconds
+		var sleepSeconds = Math.random() * 10  + 5
+
+		// run N-1 attempts, retying on failure
 		var attempt = 1;
 		while (attempt < this.maxAttemps) {
 			try {
@@ -20,13 +25,16 @@ export class Retries {
 			}
 
 			// sleep before retrying
-			const seconds = Math.random() * 10 + 5
-			core.info(`Sleeping for ${seconds} before retrying`)
-			await this.sleepForSeconds(seconds);
+			core.info(`Sleeping for ${sleepSeconds} before retrying`)
+			await this.sleepForSeconds(sleepSeconds);
+
 			++attempt;
+
+			// back-off on retries
+			sleepSeconds *= backoffRate
 		}
 
-		// run the last attempt
+		// run the last attempt, and late failure propagate
 		return await action();
 	}
 
