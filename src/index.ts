@@ -67,22 +67,23 @@ async function main() {
         name: filename,
         parents: [uploadFolderId],
     };
-    const fileData = {
-        body: fs.createReadStream(target),
-    };
 
-	const result = await retry.execute(async () => {
-		const result = await drive.files.create({
-			resource: fileMetadata,
-			media: fileData,
-			uploadType: 'multipart',
-			fields: 'id',
-			supportsAllDrives: true,
-			id: fileId,
-		});
+    const result = await retry.execute(async () => {
+        const fileData = {
+            body: fs.createReadStream(target),
+        };
 
-		return result;
-	});
+        const result = await drive.files.create({
+            resource: fileMetadata,
+            media: fileData,
+            uploadType: 'multipart',
+            fields: 'id',
+            supportsAllDrives: true,
+            id: fileId,
+        });
+
+        return result;
+    });
 
     core.setOutput('file-id', result.data.id)
     return result;
