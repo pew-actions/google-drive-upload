@@ -85,6 +85,7 @@ async function main() {
         return result;
     });
 
+    console.log(`Uploaded as file id: ${result.data.id}`)
     core.setOutput('file-id', result.data.id)
     return result;
 }
