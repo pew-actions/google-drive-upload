@@ -64,6 +64,7 @@ async function main() {
     }
 
     const fileMetadata = {
+        id: fileId,
         name: filename,
         parents: [uploadFolderId],
     };
@@ -79,13 +80,11 @@ async function main() {
             uploadType: 'multipart',
             fields: 'id',
             supportsAllDrives: true,
-            id: fileId,
         });
 
         return result;
     });
 
-	console.log(`Requested file id: ${fileId}`)
     console.log(`Uploaded as file id: ${result.data.id}`)
     core.setOutput('file-id', result.data.id)
     return result;
